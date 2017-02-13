@@ -1,0 +1,150 @@
+function ringtong(count,redSound,blueSound,greenSound,yellowSound){
+  var arr = [];
+  var temp = 0;
+  var index = 0;
+  for(var i=0;i<count;i++){
+    temp = Math.floor(Math.random() * 4) + 1;
+    arr.push(temp);
+  }
+  var counter = setInterval(timer, 1000);
+  return arr;
+  function endTimer(){
+    $("#1").html("");
+    $("#2").html("");
+    $("#3").html("");
+    $("#4").html("");
+    clearInterval(counter);
+  }
+  function timer(){
+    $("#1").html("");
+    $("#2").html("");
+    $("#3").html("");
+    $("#4").html("");
+    if(index===count){}
+    else if(arr[index]===1){
+      redSound.play();
+      $("#1").html("!!!!");
+    }else if(arr[index]===2){
+      $("#2").html("!!!!");
+      blueSound.play();
+    }else if(arr[index]===3){
+      $("#3").html("!!!!");
+      greenSound.play();
+    }else if(arr[index]===4){
+      $("#4").html("!!!!");
+      yellowSound.play();
+    }index++;
+    if(index===count+1){endTimer();}
+  }
+}
+function regularTurn(count,redSound,blueSound,greenSound,yellowSound,version){
+  var arr = ringtong(count,redSound,blueSound,greenSound,yellowSound);
+  var i = 0;
+  if(count===20){
+    $("#count").html("You win!");
+  }
+  $("#1").click(function(){
+    redSound.play();
+    if(arr[i]!==1){
+      $("#1").html("Wrong!");
+      $("#1,#2,#3,#4").off("click");
+      if(version===0){
+        $("#count").html(1);
+        regularTurn(1,redSound,blueSound,greenSound,yellowSound, version);
+      }else{
+        regularTurn(count,redSound,blueSound,greenSound,yellowSound, version);
+      }
+    }else{
+      $("#1").html("Correct!");
+      i++;
+    }
+    if(i===count){
+      $("#1,#2,#3,#4").off("click");
+      $("#count").html(count+1);
+      regularTurn(count+1,redSound,blueSound,greenSound,yellowSound, version);
+    }
+  })
+  $("#2").click(function(){
+    blueSound.play();
+    if(arr[i]!==2){
+      $("#2").html("Wrong!");
+      $("#1,#2,#3,#4").off("click");
+      if(version===0){
+        $("#count").html(1);
+        regularTurn(1,redSound,blueSound,greenSound,yellowSound, version);
+      }else{
+        regularTurn(count,redSound,blueSound,greenSound,yellowSound, version);
+      }
+    }else{
+      $("#2").html("Correct!");
+      i++;
+    }
+    if(i===count){
+      $("#1,#2,#3,#4").off("click");
+      $("#count").html(count+1);
+      regularTurn(count+1,redSound,blueSound,greenSound,yellowSound, version);
+    }
+  })
+  $("#3").click(function(){
+    greenSound.play();
+    if(arr[i]!==3){
+      $("#3").html("Wrong!");
+      $("#1,#2,#3,#4").off("click");
+      if(version===0){
+        $("#count").html(1);
+        regularTurn(1,redSound,blueSound,greenSound,yellowSound, version);
+      }else{
+        regularTurn(count,redSound,blueSound,greenSound,yellowSound, version);
+      }
+    }else{
+      $("#3").html("Correct!");
+      i++;
+    }
+    if(i===count){
+      $("#1,#2,#3,#4").off("click");
+      $("#count").html(count+1);
+      regularTurn(count+1,redSound,blueSound,greenSound,yellowSound, version);
+    }
+  })
+  $("#4").click(function(){
+    yellowSound.play();
+    if(arr[i]!==4){
+      $("#4").html("Wrong!");
+      $("#1,#2,#3,#4").off("click");
+      if(version===0){
+        $("#count").html(1);
+        regularTurn(1,redSound,blueSound,greenSound,yellowSound, version);
+      }else{
+        regularTurn(count,redSound,blueSound,greenSound,yellowSound, version);
+      }
+    }else{
+      $("#4").html("Correct!");
+      i++;
+    }
+    if(i===count){
+      $("#1,#2,#3,#4").off("click");
+      $("#count").html(count+1);
+      regularTurn(count+1,redSound,blueSound,greenSound,yellowSound, version);
+    }
+  })
+
+}
+$(document).ready(function(){
+  var count = parseInt(document.getElementById("count").innerHTML);
+  var redSound = new Audio();
+  var blueSound = new Audio();
+  var greenSound = new Audio();
+  var yellowSound = new Audio();
+  redSound.src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3";
+  blueSound.src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3";
+  greenSound.src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3";
+  yellowSound.src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3";
+  $("#start").click(function(){
+    count = 1;
+    regularTurn(count,redSound,blueSound,greenSound,yellowSound,1);
+  })
+  $("#strict").click(function(){
+    count = 1;
+    regularTurn(count,redSound,blueSound,greenSound,yellowSound,0);
+  })
+})
